@@ -24,6 +24,26 @@ file_patch()
 }
 
 # @description
+# Allows to uncomment multiple lines in a file.
+#
+# @example
+# file_uncomment "my.config" "#" "#someline" "#anotherline" "#one more line"
+#
+# @arg $1 string The file name of the file which should be patched.
+# @arg $2 string comment character
+# @arg $3-* The various comment lines.
+file_uncomment()
+{
+	local file="$1"
+	shift
+	local comment_char="$1"
+	shift
+
+	_print_heading "FILE: UNCOMMENT"
+	_file_uncomment "$file" "$comment_char" "$@"
+}
+
+# @description
 # Copies a configuration from source to destination and allows to
 # set ownership and permissions. Multiple files can be processed with
 # one function call. The dst parameter can be a file or directory.

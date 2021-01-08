@@ -59,7 +59,7 @@ _cron_cronjob_exists()
 	_cron_crontab_exists || return 1
 
 	local crontab
-	crontab=$(crontab -l -u "$LSF_LIB_CRON_USER")
+	crontab=$(crontab -l -u "$LSF_LIB_CRON_USER" 2>/dev/null)
 
 	_has_line "${crontab}\n" "$cronjob" && _print_exists && return 0
 	return 1

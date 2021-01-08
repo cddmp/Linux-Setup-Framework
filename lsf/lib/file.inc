@@ -62,6 +62,46 @@ _patch_line()
 	return $?
 }
 
+_file_uncomment()
+{
+	local filename="$1"
+	shift
+	local comment_char="$1"
+	shift
+
+	local backup="$(basename $filename).save"
+	_file_backup "$filename" "$backup"
+
+	local line=""
+	_print_info "Patching $filename"
+	while [ $# -ne 0 ]; do
+		line="$1"
+		_uncomment_line "$filename" "$comment_char" "$line"
+		[ $? -ne 0 ] && _print_error && return
+		shift
+	done
+
+	_file_diff "$backup" "$filename"
+}
+
+_uncomment_line()
+{
+	local filename="$1"
+	local comment_char="$2"
+	local line="$3"
+
+	local to=""
+	to=$(_split_tail "$line" "$comment_char")
+
+	local escaped_from=""
+	local escaped_to=""
+	escaped_from=$(_string_escape "$line")
+	escaped_to=$(_string_escape "$to")
+
+	sed -i "s/${escaped_from}/${escaped_to}/g" $filename
+	return $?
+}
+
 _file_backup()
 {
 	local src="$1"
@@ -256,17 +296,8 @@ _file_apply_single()
 
 	# Expand file name if destination is a directory
 	if [ -d "$dst" ]; then
-		dst="${dst}$(basename $src)"
-	fi
-
-	# If the file has been already applied, we are finished
-	# _file_is_applied "$dst" "$owner" "$perm" && return 0
-
-	# It is possible that "$dst" does not exist and will be
-	# created with _file_cp below. Without the check we get an
-	# error from the _file_backup function that the file does
-	# not exist
-	if [ -f "$dst" ]; then
+		dst="${dst}/$(basename $src)"
+	elif [ -f "$dst" ]; then
 		_file_backup "$dst" "$backup"
 	fi
 
