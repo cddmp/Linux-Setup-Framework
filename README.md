@@ -30,7 +30,7 @@ user_add "name=alice" "name=someapp,type=system,shell=/bin/nologin,home=/srv/som
 ssh_patch_apply "#Port 22 ==> Port 7777" "#AddressFamily any ==> AddressFamily inet"
 ```
 
-The use case goes like that: The user has installed Debian Buster on a server and now wants to change the default port of the SSH daemon. I addition, the user wants the SSH daemon to only listen on IPv4. For this, the user just copies over the repo (USB drive or direct git clone), modifies the example script and runs it. The example script above will perform the following tasks:
+The use case goes like that: The user has installed Debian Buster on a server and now wants to change the default port of the SSH daemon. In addition, the user wants the SSH daemon to only listen on IPv4. For this, the user just copies over the repo (USB drive or direct git clone) and runs the script. The example script above will perform the following tasks:
 
 1. Upgrade all packages
 2. Install vim, tmux, zsh and openssh-server
