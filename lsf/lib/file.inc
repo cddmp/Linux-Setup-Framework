@@ -54,10 +54,6 @@ _patch_line()
 	escaped_from=$(_string_escape "$from")
 	escaped_to=$(_string_escape "$to")
 
-	if _file_has_content "$filename" "$to"; then
-		return 0
-	fi
-
 	sed -i "s/${escaped_from}/${escaped_to}/g" $filename
 	return $?
 }

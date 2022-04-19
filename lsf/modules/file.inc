@@ -17,10 +17,9 @@ file_patch()
 {
 	local file="$1"
 	shift
-	local patches="$@"
 
 	_print_heading "FILE: PATCH"
-	_file_patch "$file" "$patches"
+	_file_patch "$file" "$@"
 }
 
 # @description
