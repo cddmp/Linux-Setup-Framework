@@ -74,7 +74,7 @@ _user_add_single()
 	esac
 
 	$command  "$LSF_LIB_USER_NAME" $opts
-	[ "$command" = "useradd" ] && passwd "$LSF_LIB_USER_NAME"
+	[ "$command" = "useradd" -a "$LSF_LIB_USER_TYPE" != "system" ] && passwd "$LSF_LIB_USER_NAME"
 }
 
 _user_get_command()
