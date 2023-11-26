@@ -17,7 +17,7 @@ _pkg_add_alpine()
 
 _pkg_upgrade_debian()
 {
-	apt-get update && apt-get upgrade -y
+	apt-get update && apt-get full-upgrade -y
 }
 
 _pkg_upgrade_alpine()
