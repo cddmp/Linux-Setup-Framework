@@ -194,6 +194,7 @@ _file_insert_lines()
 {
 	local filename="$1"; shift
 	local pattern="$1"; shift
+	escaped_pattern=$(_string_escape "$pattern")
 
 	local backup="$(basename $filename).save"
 	_file_backup "$filename" "$backup"
@@ -210,7 +211,7 @@ _file_insert_lines()
 		[ $# -gt 0 ] && printf "\n" >> "$tmp"
 		shift
 	done
-	sed -i "/$pattern/r $tmp" "$filename"
+	sed -i "/$escaped_pattern/r $tmp" "$filename"
 	rm -f $tmp
 
 	_file_diff "$backup" "$filename"
